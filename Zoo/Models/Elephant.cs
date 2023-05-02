@@ -15,7 +15,7 @@
             set
             {
                 _IsDead = value < _HealthPoints && !CanWalk;
-                _HealthPoints = value;
+                _HealthPoints = Math.Min(value, _HealthMax);
             }
         }
 

@@ -4,14 +4,27 @@
     {
         public Animal(byte initialHealtPoints, byte borderlineHealthStatusPoints)
         {
-            HealthPoints = initialHealtPoints;
+            if (initialHealtPoints < borderlineHealthStatusPoints)
+            {
+                throw new ArgumentException("Tried to create dead animal");
+            }
+
+            if (borderlineHealthStatusPoints < 1)
+            {
+                throw new ArgumentException("Borderline Health Status Points cannot be 0");
+            }
+
+            HealthPoints = Math.Min(initialHealtPoints, _HealthMax);
+
             BorderlineHealthStatusPoints = borderlineHealthStatusPoints;
         }
+
+        protected readonly byte _HealthMax = 100;
 
         public virtual byte HealthPoints
         {
             get { return _HealthPoints; }
-            set { _HealthPoints = value; }
+            set { _HealthPoints = Math.Min(value, _HealthMax); }
         }
 
         protected byte _HealthPoints;
