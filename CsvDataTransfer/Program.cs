@@ -12,6 +12,7 @@ using IHost host = Host.CreateDefaultBuilder()
                 services.AddScoped<ICsvLoadable, LoaderCsv>();
                 services.AddSingleton<ICsvParsable, ParserCsv>();
                 services.AddScoped<ICsvModelRepository, CsvModelsRepository>();
+                services.AddScoped<IStoreToDb, DbRepository>();
                 services.AddScoped<IService, ProcessData>();
             })
             .Build();
