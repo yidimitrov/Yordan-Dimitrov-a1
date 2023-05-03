@@ -1,7 +1,9 @@
-﻿namespace CsvDataTransfer.Interfaces
+﻿using CsvDataTransfer.Models;
+
+namespace CsvDataTransfer.Interfaces
 {
     public interface IStoreToDb
     {
-        void StoteToDatabase<T>(IEnumerable<T> data);
+        void StoteCsvToDatabase(IEnumerable<OfferDbModel> data);
     }
 }

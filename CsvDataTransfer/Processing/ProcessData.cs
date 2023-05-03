@@ -1,4 +1,5 @@
-﻿using CsvDataTransfer.Interfaces;
+﻿using AutoMapper;
+using CsvDataTransfer.Interfaces;
 using CsvDataTransfer.Models;
 
 namespace CsvDataTransfer.Processing
@@ -7,25 +8,28 @@ namespace CsvDataTransfer.Processing
     {
         public ProcessData(ICsvLoadable loadable, ICsvParsable csvParsable, IStoreToDb storeToDb)
         {
-
             _loadable = loadable;
             _csvParsable = csvParsable;
             _storeToDb = storeToDb;
+            _mapper = MapperConfig.InitializeAutoMapper();
         }
 
         private readonly ICsvLoadable _loadable;
         private readonly ICsvParsable _csvParsable;
         private readonly IStoreToDb _storeToDb;
+        private readonly Mapper _mapper;
 
         public void TransferCsvFileToDb(string csvfile)
         {
             try
             {
-                string[] csvrows = _loadable.LoadCsv(csvfile).ToArray();
+                var csvrows = _loadable.LoadCsv(csvfile).ToArray();
 
-                IEnumerable<OfferCsvModel> offers = _csvParsable.ParseCsvRows<OfferCsvModel>(csvrows);
+                var offers = _csvParsable.ParseCsvRows<OfferCsvModel>(csvrows);
 
-                _storeToDb.StoteToDatabase(offers);
+                var dbOffers = _mapper.Map<IEnumerable<OfferCsvModel>, IEnumerable<OfferDbModel>>(offers);
+
+                _storeToDb.StoteCsvToDatabase(dbOffers);
             }
             catch (Exception exception)
             {

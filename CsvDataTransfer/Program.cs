@@ -1,5 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
-using CsvDataTransfer.Interfaces;
+﻿using CsvDataTransfer.Interfaces;
 using CsvDataTransfer.Processing;
 using CsvDataTransfer.Reflection;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,7 +9,7 @@ using IHost host = Host.CreateDefaultBuilder()
             .ConfigureServices((_, services) =>
             {
                 services.AddScoped<ICsvLoadable, LoaderCsv>();
-                services.AddSingleton<ICsvParsable, ParserCsv>();
+                services.AddScoped<ICsvParsable, ParserCsv>();
                 services.AddScoped<ICsvModelRepository, CsvModelsRepository>();
                 services.AddScoped<IStoreToDb, DbRepository>();
                 services.AddScoped<IService, ProcessData>();

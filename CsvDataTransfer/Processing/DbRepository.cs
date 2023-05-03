@@ -1,12 +1,19 @@
 ﻿using CsvDataTransfer.Interfaces;
+using CsvDataTransfer.Models;
 
 namespace CsvDataTransfer.Processing
 {
     public class DbRepository : IStoreToDb
     {
-        public void StoteToDatabase<T>(IEnumerable<T> data)
+        public void StoteCsvToDatabase(IEnumerable<OfferDbModel> data)
         {
-            throw new NotImplementedException();
+            using var db = new CsvDbContext();
+
+            foreach (var item in data)
+            {
+                db.Add(item);
+            }
+            db.SaveChanges();
         }
     }
 }
